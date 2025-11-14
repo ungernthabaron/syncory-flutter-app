@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // --- 1. ПРАВИЛА ДЛЯ ПОЛЬЗОВАТЕЛЕЙ (users) ---
+    match /users/{userId} {
+      // Любой вошедший пользователь может читать любой профиль (для фида)
+      allow read: if request.auth.uid != null; 
+      
+      // Пользователь может создавать или обновлять ТОЛЬКО СВОЙ профиль
+      allow create, update: if request.auth.uid == userId;
+      
+      // Удаление запрещено (только через админку и отключение флага)
+      allow delete: if false; 
+    }
+    
+    // --- 2. ПРАВИЛА ДЛЯ КАТЕГОРИЙ (all_categories) ---
+    match /all_categories/{categoryId} {
+      // Все могут читать список категорий
+      allow read: if true; 
+      
+      // Добавлять и удалять может ТОЛЬКО АДМИН (мы это делаем на сервере, но Flutter тоже вызывает)
+      // Так как ты админ и твоя роль - admin, это дает тебе право на запись.
+      // (Это упрощенное правило для тестирования).
+      allow create, delete: if request.auth.uid != null; 
+    }
+
+    // --- 3. ПРАВИЛА ДЛЯ ПОСТОВ (posts) ---
+    match /posts/{postId} {
+      // Все могут читать посты
+      allow read: if true; 
+      
+      // Создавать может любой вошедший
+      allow create: if request.auth.uid != null; 
+      
+      // Обновить или удалить может только автор
+      allow update, delete: if request.auth.uid == resource.data.author_uid; 
+      
+      // --- 4. ПОДКОЛЛЕКЦИИ ПОСТОВ (likes, comments, applicants) ---
+      
+      // Лайки
+      match /likes/{likeId} {
+        // Создать лайк может любой, удалить только тот, кто его поставил
+        allow write: if request.auth.uid == request.resource.data.author_uid || request.auth.uid == resource.data.author_uid;
+        allow read: if true;
+      }
+      
+      // Комментарии и Заявки
+      match /{subcollection}/{subDocument} {
+        allow read: if true;
+        // Создавать может любой вошедший
+        allow create: if request.auth.uid != null; 
+        // Удалять/Обновлять может только автор
+        allow update, delete: if request.auth.uid == resource.data.authorUid;
+      }
+    }
+    
+    // --- 5. ПРАВИЛА ДЛЯ УВЕДОМЛЕНИЙ (notifications) ---
+    match /notifications/{notificationId} {
+      // Создать уведомление может любой авторизованный
+      allow create: if request.auth.uid != null;
+      
+      // Прочитать или удалить уведомление может ТОЛЬКО ПОЛУЧАТЕЛЬ
+      allow read, delete: if request.auth.uid == resource.data.recipientId; 
+    }
+  }
+}
