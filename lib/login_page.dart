@@ -66,10 +66,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       );
       if (userCredential.user != null) {
         await userCredential.user!.sendEmailVerification();
-        _showSuccess("Письмо для подтверждения отправлено на ${userCredential.user!.email}.");
+        _showSuccess("Verification email sent to ${userCredential.user!.email}.");
       }
     } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? "Ошибка регистрации");
+      _showError(e.message ?? "Registration error");
     } finally {
       if (mounted) {
         setState(() { _isLoading = false; });
@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         password: _passwordController.text.trim(),
       );
     } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? "Error");
+      _showError(e.message ?? "Sign-in error");
     } finally {
       if (mounted) {
         setState(() { _isLoading = false; });
@@ -96,17 +96,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Future<void> _resetPassword() async {
     final email = _emailController.text.trim();
     if (email.isEmpty) {
-      _showError("Сначала введите Email в поле выше");
+      _showError("Please enter your email first");
       return;
     }
     setState(() { _isLoading = true; });
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       if (mounted) {
-        _showSuccess("Ссылка для сброса пароля отправлена на $email");
+        _showSuccess("Password reset link sent to $email");
       }
     } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? "Ошибка сброса пароля");
+      _showError(e.message ?? "Password reset error");
     } finally {
       if (mounted) {
         setState(() { _isLoading = false; });
@@ -132,9 +132,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       );
       await FirebaseAuth.instance.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
-      _showError(e.message ?? "Error");
+      _showError(e.message ?? "Google Sign-In Error");
     } catch (e) {
-      _showError("Произошла ошибка: $e");
+      _showError("An error occurred: $e");
     } finally {
       if (mounted) {
         setState(() { _isLoading = false; });
@@ -183,109 +183,149 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             // --- Форма Входа (Парит по центру) ---
             Center(
               child: ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: 400),
-              child: Card(
-                color: theme.colorScheme.surface.withOpacity(0.85),
-                elevation: 8,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                child: _isLoading
-                  ? Padding(
-                      padding: EdgeInsets.all(100),
-                      child: Center(child: CircularProgressIndicator()),
-                    )
-                  : SingleChildScrollView(
-                    padding: const EdgeInsets.all(32.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Syncory',
-                          style: GoogleFonts.montserrat(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                        SizedBox(height: 24),
-                        
-                        TextField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))
-                          ),
-                          keyboardType: TextInputType.emailAddress,
-                        ),
-                        SizedBox(height: 12),
-                        TextField(
-                          controller: _passwordController,
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))
-                          ),
-                          obscureText: true,
-                        ),
-                        SizedBox(height: 12),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            onPressed: _resetPassword,
-                            child: Text('Forgot?'),
-                          ),
-                        ),
-                        SizedBox(height: 12),
-
-                        SizedBox(
-                          width: double.infinity,
-                          child: FilledButton(
-                            onPressed: signIn, 
-                            child: Text('Sign-In'),
-                            style: FilledButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton(
-                            onPressed: signUp,
-                            child: Text('Registration'),
-                            style: OutlinedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16.0),
-                          child: Row(
-                            children: [
-                              Expanded(child: Divider()),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: Text('OR')
+                constraints: BoxConstraints(maxWidth: 400),
+                child: Card(
+                  color: theme.colorScheme.surface.withOpacity(0.85),
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                  child: _isLoading
+                      ? Padding(
+                          padding: EdgeInsets.all(100),
+                          child: Center(child: CircularProgressIndicator()),
+                        )
+                      : SingleChildScrollView(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Sign In or Sign Up',
+                              style: GoogleFonts.montserrat(
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.primary,
                               ),
-                              Expanded(child: Divider())
-                            ]
-                          ),
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton.icon(
-                            onPressed: _signInWithGoogle,
-                            icon: Image.asset('assets/images/google_logo.png', height: 20, width: 20),
-                            label: Text('Google'),
-                            style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(vertical: 12),
                             ),
-                          ),
+                            SizedBox(height: 24),
+                            
+                            TextField(
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                labelText: 'Email',
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))
+                              ),
+                              keyboardType: TextInputType.emailAddress,
+                            ),
+                            SizedBox(height: 12),
+                            TextField(
+                              controller: _passwordController,
+                              decoration: InputDecoration(
+                                labelText: 'Password',
+                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))
+                              ),
+                              obscureText: true,
+                            ),
+                            SizedBox(height: 12),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: TextButton(
+                                onPressed: _resetPassword,
+                                child: Text('Forgot password?'),
+                              ),
+                            ),
+                            SizedBox(height: 12),
+
+                            SizedBox(
+                              width: double.infinity,
+                              child: FilledButton(
+                                onPressed: signIn, 
+                                child: Text('Sign In'),
+                                style: FilledButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton(
+                                onPressed: signUp,
+                                child: Text('Sign Up'),
+                                style: OutlinedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 16)),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16.0),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Divider()),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text('OR')
+                                  ),
+                                  Expanded(child: Divider())
+                                ]
+                              ),
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: OutlinedButton.icon(
+                                onPressed: _signInWithGoogle,
+                                icon: Image.asset('assets/images/google_logo.png', height: 20, width: 20),
+                                label: Text('Sign In with Google'),
+                                style: OutlinedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(vertical: 12),
+                                ),
+                              ),
+                            ),
+                            
+                            // --- 🔥 МУЛЬТИЯЗЫЧНЫЙ ДИСКЛЕЙМЕР 🔥 ---
+                            SizedBox(height: 24),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
+                                children: [
+                                  // --- English ---
+                                  Text(
+                                    "By signing in or registering, you agree to our Terms of Service and Privacy Policy. You acknowledge that your data will be stored on Google Cloud (Firebase) servers, potentially outside your country.",
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
+                                      fontSize: 11,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 10),
+                                  // --- Русский ---
+                                  Text(
+                                    "Нажимая 'Войти' или 'Регистрация', вы принимаете Условия и Политику конфиденциальности. Вы подтверждаете, что ваши данные будут храниться на серверах Google Cloud (Firebase), которые могут находиться за пределами вашей страны.",
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant.withOpacity(0.7),
+                                      fontSize: 10,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  SizedBox(height: 10),
+                                  // --- Қазақша ---
+                                  Text(
+                                    "Кіру немесе Тіркелу арқылы сіз Қызмет көрсету шарттары мен Құпиялылық саясатын қабылдайсыз. Сіз деректеріңіздің сіздің еліңізден тыс жерде орналасқан Google Cloud (Firebase) серверлерінде сақталатынын растайсыз.",
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant.withOpacity(0.7),
+                                      fontSize: 10,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
 
