@@ -1,4 +1,4 @@
-# Synqoryory
+# Synqory
 
 <div align="center">
 
@@ -8,7 +8,7 @@
 [![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=for-the-badge)](https://www.gnu.org/licenses/gpl-3.0)
 
-[🐛 Report Bug](https://github.com/ungernthabaron/Synqoryory-flutter-app/issues) • [💡 Request Feature](https://github.com/ungernthabaron/Synqoryory-flutter-app/issues)
+[🐛 Report Bug](https://github.com/ungernthabaron/Synqory-flutter-app/issues) • [💡 Request Feature](https://github.com/ungernthabaron/Synqory-flutter-app/issues)
 
 [Русская версия](#русская-версия) | English
 
@@ -18,7 +18,7 @@
 
 ## 🚀 About
 
-**Synqory** is a cross-platform Flutter Web app built with Firebase that connects people through shared interests. Looking for a gaming partner? Want to discuss data analysis? Planning an event? Synqoryory helps you find your squad through smart category matching.
+**Synqory** is a cross-platform Flutter Web app built with Firebase that connects people through shared interests. Looking for a gaming partner? Want to discuss data analysis? Planning an event? Synqory helps you find your squad through smart category matching.
 
 ### ✨ Key Features
 
@@ -54,8 +54,8 @@ Auth:      Email/Password, Google Sign-In
 
 ```bash
 # Clone the repo
-git clone https://github.com/ungernthabaron/Synqoryory-flutter-app.git
-cd Synqoryory-flutter-app
+git clone https://github.com/ungernthabaron/Synqory-flutter-app.git
+cd Synqory-flutter-app
 
 # Install dependencies
 flutter pub get
@@ -124,7 +124,7 @@ This project is licensed under the **GNU General Public License v3.0**. See [LIC
 
 **Project Author** — [@ungernthabaron](https://github.com/ungernthabaron)
 
-**Project Link** — [https://github.com/ungernthabaron/Synqoryory-flutter-app](https://github.com/ungernthabaron/Synqoryory-flutter-app)
+**Project Link** — [https://github.com/ungernthabaron/Synqory-flutter-app](https://github.com/ungernthabaron/Synqory-flutter-app)
 
 ---
 
@@ -148,7 +148,7 @@ This project is licensed under the **GNU General Public License v3.0**. See [LIC
 
 ## 🚀 О проекте
 
-**Synqoryory** — это кросс-платформенное приложение на Flutter и Firebase для объединения людей с общими интересами. Ищете напарника для игр? Хотите обсудить анализ данных? Планируете мероприятие? Synqoryory поможет найти "своих" через умный подбор по категориям.
+**Synqory** — это кросс-платформенное приложение на Flutter и Firebase для объединения людей с общими интересами. Ищете напарника для игр? Хотите обсудить анализ данных? Планируете мероприятие? Synqory поможет найти "своих" через умный подбор по категориям.
 
 ### ✨ Основные функции
 
@@ -184,8 +184,8 @@ Auth:      Email/Пароль, Google Sign-In
 
 ```bash
 # Клонируйте репозиторий
-git clone https://github.com/ungernthabaron/Synqoryory-flutter-app.git
-cd Synqoryory-flutter-app
+git clone https://github.com/ungernthabaron/Synqory-flutter-app.git
+cd Synqory-flutter-app
 
 # Установите зависимости
 flutter pub get
@@ -254,7 +254,7 @@ firebase deploy
 
 **Автор проекта** — [@ungernthabaron](https://github.com/ungernthabaron)
 
-**Ссылка на проект** — [https://github.com/ungernthabaron/Synqoryory-flutter-app](https://github.com/ungernthabaron/Synqoryory-flutter-app)
+**Ссылка на проект** — [https://github.com/ungernthabaron/Synqory-flutter-app](https://github.com/ungernthabaron/Synqory-flutter-app)
 
 ---
 
