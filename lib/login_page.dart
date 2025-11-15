@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   
   final List<String> _tags = [
     'flutter', 'data', 'gamedev', 'art', 'music', 'kazakhstan',
-    'barbecue', 'warhammer', 'python', 'synq', 'design', 'cinema'
+    'barbecue', 'warhammer', 'python', 'Syncory', 'design', 'cinema'
   ];
 
   @override
@@ -200,7 +200,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Synq',
+                          'Syncory',
                           style: GoogleFonts.montserrat(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,

@@ -68,7 +68,7 @@ class _FeedPageState extends State<FeedPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 8.0, bottom: 24.0),
                     child: Text(
-                      'Synq',
+                      'Syncory',
                       style: GoogleFonts.montserrat(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
